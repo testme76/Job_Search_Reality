@@ -128,7 +128,47 @@ export async function getAggregatedStats(
   filters?: DashboardFilters
 ): Promise<AggregatedStats> {
   try {
-    let query = sql`
+    // Build WHERE conditions
+    const conditions: string[] = [];
+    const values: any[] = [];
+    let paramIndex = 1;
+
+    if (filters?.major) {
+      conditions.push(`major = $${paramIndex++}`);
+      values.push(filters.major);
+    }
+    if (filters?.degree) {
+      conditions.push(`degree = $${paramIndex++}`);
+      values.push(filters.degree);
+    }
+    if (filters?.school_tier) {
+      conditions.push(`school_tier = $${paramIndex++}`);
+      values.push(filters.school_tier);
+    }
+    if (filters?.gpa_range) {
+      conditions.push(`gpa_range = $${paramIndex++}`);
+      values.push(filters.gpa_range);
+    }
+    if (filters?.needs_sponsorship !== undefined) {
+      conditions.push(`needs_sponsorship = $${paramIndex++}`);
+      values.push(filters.needs_sponsorship);
+    }
+    if (filters?.has_return_offer !== undefined) {
+      conditions.push(`has_return_offer = $${paramIndex++}`);
+      values.push(filters.has_return_offer);
+    }
+    if (filters?.graduating_time) {
+      conditions.push(`graduating_time = $${paramIndex++}`);
+      values.push(filters.graduating_time);
+    }
+    if (filters?.when_started_applying) {
+      conditions.push(`when_started_applying = $${paramIndex++}`);
+      values.push(filters.when_started_applying);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const queryText = `
       SELECT
         COUNT(*) as total_survey_count,
         AVG(total_applications)::NUMERIC(10,2) as avg_applications,
@@ -141,35 +181,10 @@ export async function getAggregatedStats(
         (AVG(CASE WHEN total_first_round > 0 THEN total_final_round::NUMERIC / total_first_round ELSE 0 END) * 100)::NUMERIC(10,2) as final_round_rate,
         (AVG(CASE WHEN total_final_round > 0 THEN total_offers::NUMERIC / total_final_round ELSE 0 END) * 100)::NUMERIC(10,2) as offer_rate
       FROM survey_responses
-      WHERE 1=1
+      ${whereClause}
     `;
 
-    if (filters?.major) {
-      query = sql`${query} AND major = ${filters.major}`;
-    }
-    if (filters?.degree) {
-      query = sql`${query} AND degree = ${filters.degree}`;
-    }
-    if (filters?.school_tier) {
-      query = sql`${query} AND school_tier = ${filters.school_tier}`;
-    }
-    if (filters?.gpa_range) {
-      query = sql`${query} AND gpa_range = ${filters.gpa_range}`;
-    }
-    if (filters?.needs_sponsorship !== undefined) {
-      query = sql`${query} AND needs_sponsorship = ${filters.needs_sponsorship}`;
-    }
-    if (filters?.has_return_offer !== undefined) {
-      query = sql`${query} AND has_return_offer = ${filters.has_return_offer}`;
-    }
-    if (filters?.graduating_time) {
-      query = sql`${query} AND graduating_time = ${filters.graduating_time}`;
-    }
-    if (filters?.when_started_applying) {
-      query = sql`${query} AND when_started_applying = ${filters.when_started_applying}`;
-    }
-
-    const { rows } = await query;
+    const { rows } = await sql.query(queryText, values);
     const row = rows[0];
 
     return {
