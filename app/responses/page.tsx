@@ -26,6 +26,65 @@ export default function ResponsesPage() {
     fetchResponses();
   }, []);
 
+  const exportToCSV = () => {
+    if (responses.length === 0) return;
+
+    // CSV headers
+    const headers = [
+      'Date',
+      'Total Applications',
+      'Total Responses',
+      'First Round Interviews',
+      'Final Round Interviews',
+      'Total Offers',
+      'Major',
+      'Degree',
+      'School Tier',
+      'GPA Range',
+      'Graduating Time',
+      'Internship Count',
+      'Has Return Offer',
+      'Needs Sponsorship',
+      'When Started Applying'
+    ];
+
+    // Convert data to CSV rows
+    const csvRows = [
+      headers.join(','),
+      ...responses.map(response => [
+        new Date(response.timestamp).toLocaleDateString(),
+        response.total_applications,
+        response.total_responses,
+        response.total_first_round,
+        response.total_final_round,
+        response.total_offers,
+        `"${response.major}"`,
+        `"${response.degree}"`,
+        `"${response.school_tier}"`,
+        `"${response.gpa_range}"`,
+        `"${response.graduating_time}"`,
+        response.internship_count,
+        `"${response.has_return_offer}"`,
+        `"${response.needs_sponsorship}"`,
+        `"${response.when_started_applying}"`
+      ].join(','))
+    ];
+
+    // Create CSV string
+    const csvString = csvRows.join('\n');
+
+    // Create download link
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `job-search-responses-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
   if (loading) {
     return (
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -58,13 +117,25 @@ export default function ResponsesPage() {
       <Nav />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            All Survey Responses
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            {responses.length} anonymous submissions from job seekers
-          </p>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              All Survey Responses
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              {responses.length} anonymous submissions from job seekers
+            </p>
+          </div>
+          <button
+            onClick={exportToCSV}
+            disabled={responses.length === 0}
+            className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 disabled:cursor-not-allowed"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Export CSV
+          </button>
         </div>
 
         {/* Responses Table */}
