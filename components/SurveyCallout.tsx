@@ -30,23 +30,19 @@ export default function SurveyCallout() {
         </ul>
       </div>
 
-      <a
-        href="https://forms.gle/98NCmJuqme5Dtwrr7"
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href="/survey"
         className="block w-full text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 mb-3"
       >
         📋 Fill Out Survey
-      </a>
+      </Link>
 
-      <a
-        href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTtxHnAm3aYcGJ9iN5vU1_DLOsklv2Nt5sjlZgI5ye5yF-2O_JIJwMkDkfAAYf_CJSS_EStQM1VrXfT/pubhtml"
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href="/responses"
         className="block w-full text-center bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-blue-600 dark:text-blue-400 font-semibold px-6 py-3 rounded-xl text-sm transition-all duration-300 shadow-md hover:shadow-lg border-2 border-blue-600 dark:border-blue-400"
       >
         📊 View Responses
-      </a>
+      </Link>
 
       <p className="text-xs text-gray-600 dark:text-gray-400 mt-4 text-center">
         🔒 100% anonymous
