@@ -77,7 +77,9 @@ export function SurveyForm() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit survey');
+        const errorData = await response.json().catch(() => ({}));
+        const errorMsg = errorData.error || errorData.details || 'Failed to submit survey';
+        throw new Error(errorMsg);
       }
 
       setSubmitStatus('success');
@@ -232,23 +234,29 @@ export function SurveyForm() {
 
           <div>
             <label htmlFor="major" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Major *
+              What's your major? *
             </label>
-            <input
-              type="text"
+            <select
               id="major"
               name="major"
               value={formData.major}
               onChange={handleChange}
               required
-              placeholder="e.g., Computer Science"
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
-            />
+            >
+              <option value="">Select major</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Software Engineering">Software Engineering</option>
+              <option value="Computer Engineering">Computer Engineering</option>
+              <option value="Data Science / Analytics">Data Science / Analytics</option>
+              <option value="Other Engineering (EE, ME, etc.)">Other Engineering (EE, ME, etc.)</option>
+              <option value="Math / Statistics">Math / Statistics</option>
+            </select>
           </div>
 
           <div>
             <label htmlFor="degree" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Degree Level *
+              What degree are you pursuing/did you complete? *
             </label>
             <select
               id="degree"
@@ -259,15 +267,18 @@ export function SurveyForm() {
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
             >
               <option value="">Select degree</option>
-              <option value="Bachelor's">Bachelor's</option>
-              <option value="Master's">Master's</option>
-              <option value="PhD">PhD</option>
+              <option value="Bachelor's degree">Bachelor's degree</option>
+              <option value="Master's degree (came straight from undergrad)">Master's degree (came straight from undergrad)</option>
+              <option value="Master's degree (worked full-time before grad school)">Master's degree (worked full-time before grad school)</option>
+              <option value="PhD / Currently pursuing PhD">PhD / Currently pursuing PhD</option>
+              <option value="Bootcamp graduate">Bootcamp graduate</option>
+              <option value="Self-taught / No degree">Self-taught / No degree</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="school_tier" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              School Tier *
+              What tier is your school? *
             </label>
             <select
               id="school_tier"
@@ -278,15 +289,18 @@ export function SurveyForm() {
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
             >
               <option value="">Select tier</option>
-              <option value="Target (Top 50)">Target (Top 50)</option>
-              <option value="Reach (Top 20)">Reach (Top 20)</option>
-              <option value="Safety (Below Top 50)">Safety (Below Top 50)</option>
+              <option value="Top 10 CS (MIT, Stanford, CMU, Berkeley, etc.)">Top 10 CS (MIT, Stanford, CMU, Berkeley, etc.)</option>
+              <option value="Top 25 CS (UIUC, Georgia Tech, UT Austin, Cornell, etc.)">Top 25 CS (UIUC, Georgia Tech, UT Austin, Cornell, etc.)</option>
+              <option value="Top 50 CS / Strong state flagship">Top 50 CS / Strong state flagship</option>
+              <option value="Regional state university / mid-tier private">Regional state university / mid-tier private</option>
+              <option value="International university (non-US)">International university (non-US)</option>
+              <option value="Attended bootcamp / self-taught / non-traditional">Attended bootcamp / self-taught / non-traditional</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="gpa_range" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              GPA Range *
+              What's your GPA range? *
             </label>
             <select
               id="gpa_range"
@@ -297,27 +311,34 @@ export function SurveyForm() {
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
             >
               <option value="">Select GPA range</option>
-              <option value="3.7-4.0">3.7-4.0</option>
-              <option value="3.5-3.7">3.5-3.7</option>
-              <option value="3.0-3.5">3.0-3.5</option>
+              <option value="3.85 - 4.0">3.85 - 4.0</option>
+              <option value="3.7-3.84">3.7 - 3.84</option>
+              <option value="3.3 - 3.69">3.3 - 3.69</option>
+              <option value="3.0 - 3.29">3.0 - 3.29</option>
               <option value="Below 3.0">Below 3.0</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="graduating_time" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Graduating Time *
+              When are you graduating? *
             </label>
-            <input
-              type="text"
+            <select
               id="graduating_time"
               name="graduating_time"
               value={formData.graduating_time}
               onChange={handleChange}
               required
-              placeholder="e.g., May 2025"
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
-            />
+            >
+              <option value="">Select graduation time</option>
+              <option value="Already graduated (2024 or earlier)">Already graduated (2024 or earlier)</option>
+              <option value="Spring 2025 (May 2025)">Spring 2025 (May 2025)</option>
+              <option value="Fall 2025 (Dec 2025)">Fall 2025 (Dec 2025)</option>
+              <option value="Spring 2026 (May 2026)">Spring 2026 (May 2026)</option>
+              <option value="Fall 2026 (Dec 2026)">Fall 2026 (Dec 2026)</option>
+              <option value="2027 or later">2027 or later</option>
+            </select>
           </div>
         </div>
 
@@ -332,23 +353,27 @@ export function SurveyForm() {
 
           <div>
             <label htmlFor="internship_count" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Number of Previous Internships *
+              How many software/tech internships have you completed? *
             </label>
-            <input
-              type="number"
+            <select
               id="internship_count"
               name="internship_count"
               value={formData.internship_count}
               onChange={handleChange}
               required
-              min="0"
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
-            />
+            >
+              <option value="">Select count</option>
+              <option value="0">0 internships</option>
+              <option value="1">1 internship</option>
+              <option value="2">2 internships</option>
+              <option value="3">3+ internships</option>
+            </select>
           </div>
 
           <div>
             <label htmlFor="has_return_offer" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Return Offer Status *
+              Do you have a return offer from a previous internship? *
             </label>
             <select
               id="has_return_offer"
@@ -359,9 +384,9 @@ export function SurveyForm() {
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
             >
               <option value="">Select status</option>
-              <option value="Yes, but I'm still searching...">Yes, but I'm still searching...</option>
+              <option value="Yes, but I'm still searching for other opportunities">Yes, but I'm still searching for other opportunities</option>
+              <option value="Yes, but it was rescinded or withdrawn">Yes, but it was rescinded or withdrawn</option>
               <option value="No, I don't have a return offer">No, I don't have a return offer</option>
-              <option value="Yes, I accepted my return offer">Yes, I accepted my return offer</option>
             </select>
           </div>
         </div>
@@ -377,7 +402,7 @@ export function SurveyForm() {
 
           <div>
             <label htmlFor="needs_sponsorship" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Visa Sponsorship Status *
+              Do you need visa sponsorship? *
             </label>
             <select
               id="needs_sponsorship"
@@ -396,18 +421,24 @@ export function SurveyForm() {
 
           <div>
             <label htmlFor="when_started_applying" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              When Did You Start Applying? *
+              When did you start actively applying? *
             </label>
-            <input
-              type="text"
+            <select
               id="when_started_applying"
               name="when_started_applying"
               value={formData.when_started_applying}
               onChange={handleChange}
               required
-              placeholder="e.g., August 2024 or 3 months before graduation"
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
-            />
+            >
+              <option value="">Select time</option>
+              <option value="Before August 2024">Before August 2024</option>
+              <option value="August - December 2024">August - December 2024</option>
+              <option value="January 2025 - May 2025">January 2025 - May 2025</option>
+              <option value="May 2025 - August 2025">May 2025 - August 2025</option>
+              <option value="August 2025 or Later">August 2025 or Later</option>
+              <option value="Haven't started yet">Haven't started yet</option>
+            </select>
           </div>
         </div>
 

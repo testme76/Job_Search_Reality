@@ -27,10 +27,10 @@ export async function initializeDatabase() {
 
         -- Experience
         internship_count INTEGER NOT NULL,
-        has_return_offer BOOLEAN NOT NULL,
+        has_return_offer VARCHAR(100) NOT NULL,
 
         -- Job search details
-        needs_sponsorship BOOLEAN NOT NULL,
+        needs_sponsorship VARCHAR(100) NOT NULL,
         when_started_applying VARCHAR(50) NOT NULL,
 
         -- Metadata
