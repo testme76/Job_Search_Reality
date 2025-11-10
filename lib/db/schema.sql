@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS survey_responses (
 
   -- Experience
   internship_count INTEGER NOT NULL,
-  has_return_offer BOOLEAN NOT NULL,
+  has_return_offer VARCHAR(100) NOT NULL, -- e.g., "Yes, but I'm still searching for other opportunities", "No, I don't have a return offer"
 
   -- Job search details
-  needs_sponsorship BOOLEAN NOT NULL,
+  needs_sponsorship VARCHAR(100) NOT NULL, -- e.g., "Yes, I need sponsorship", "No, US citizen", "No, permanent resident"
   when_started_applying VARCHAR(50) NOT NULL, -- e.g., "August 2023", "3 months before graduation"
 
   -- Metadata

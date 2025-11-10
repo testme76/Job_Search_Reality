@@ -1,30 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Nav from "@/components/Nav";
 import { SurveyResponse } from '@/lib/types';
+import { TableRowSkeleton } from '@/components/ui/Skeleton';
+
+async function fetchResponses() {
+  const res = await fetch('/api/responses');
+  if (!res.ok) throw new Error('Failed to fetch responses');
+  const data = await res.json();
+  return data.data as SurveyResponse[];
+}
 
 export default function ResponsesPage() {
-  const [responses, setResponses] = useState<SurveyResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchResponses() {
-      try {
-        const res = await fetch('/api/survey');
-        if (!res.ok) throw new Error('Failed to fetch responses');
-        const data = await res.json();
-        setResponses(data.data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchResponses();
-  }, []);
+  const { data: responses = [], isLoading: loading, error } = useQuery({
+    queryKey: ['responses'],
+    queryFn: fetchResponses,
+  });
 
   const exportToCSV = () => {
     if (responses.length === 0) return;
@@ -90,9 +82,34 @@ export default function ResponsesPage() {
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <Nav />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading responses...</p>
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              All Survey Responses
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400">Loading...</p>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-900">
+                  <tr>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Date</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Applications</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Responses</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">1st Round</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Final Round</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Offers</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </main>
@@ -105,7 +122,7 @@ export default function ResponsesPage() {
         <Nav />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center text-red-600">
-            <p>Error: {error}</p>
+            <p>Error: {error instanceof Error ? error.message : 'An error occurred'}</p>
           </div>
         </div>
       </main>

@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 import { getSurveyResponses } from "@/lib/db/postgres";
 import type { DashboardFilters } from "@/lib/types";
+import { PerformanceMonitor } from "@/lib/utils/performance";
+
+export const revalidate = 60; // Cache for 60 seconds
 
 export async function GET(request: Request) {
+  const perf = new PerformanceMonitor('GET /api/responses');
+
   try {
     const { searchParams } = new URL(request.url);
 
@@ -33,9 +38,20 @@ export async function GET(request: Request) {
     const hasReturnOffer = searchParams.get("has_return_offer");
     if (hasReturnOffer !== null) filters.has_return_offer = hasReturnOffer;
 
+    const internshipCount = searchParams.get("internship_count");
+    if (internshipCount !== null) filters.internship_count = internshipCount;
+
+    console.log('API Filters:', JSON.stringify(filters, null, 2));
+    console.log('Internship count from query:', internshipCount);
+
+    perf.checkpoint('Parsed filters');
+
     // Fetch filtered data from Postgres
     const data = await getSurveyResponses(filters);
+    console.log('Data returned:', data.length, 'records');
+    perf.checkpoint('Database query');
 
+    perf.end();
     return NextResponse.json({ data, count: data.length });
   } catch (error) {
     console.error("Error in API route:", error);

@@ -109,15 +109,12 @@ export function SurveyForm() {
         </p>
         <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500 dark:text-gray-400">
           <div className="flex items-center gap-2">
-            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>100% Anonymous</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>Instant Results</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>Community Driven</span>
           </div>
         </div>
@@ -129,9 +126,6 @@ export function SurveyForm() {
         {/* Application Statistics */}
         <div className="space-y-5">
           <div className="flex items-center gap-3 pb-3 border-b-2 border-blue-100 dark:border-blue-900">
-            <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-              <span className="text-xl">📊</span>
-            </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Application Statistics</h3>
           </div>
 
@@ -226,9 +220,6 @@ export function SurveyForm() {
         {/* Academic Background */}
         <div className="space-y-5">
           <div className="flex items-center gap-3 pb-3 border-b-2 border-indigo-100 dark:border-indigo-900">
-            <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center">
-              <span className="text-xl">🎓</span>
-            </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Academic Background</h3>
           </div>
 
@@ -300,7 +291,7 @@ export function SurveyForm() {
 
           <div>
             <label htmlFor="gpa_range" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              What's your GPA range? *
+              GPA Range *
             </label>
             <select
               id="gpa_range"
@@ -311,69 +302,55 @@ export function SurveyForm() {
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
             >
               <option value="">Select GPA range</option>
-              <option value="3.85 - 4.0">3.85 - 4.0</option>
-              <option value="3.7-3.84">3.7 - 3.84</option>
-              <option value="3.3 - 3.69">3.3 - 3.69</option>
-              <option value="3.0 - 3.29">3.0 - 3.29</option>
+              <option value="3.7-4.0">3.7-4.0</option>
+              <option value="3.5-3.7">3.5-3.7</option>
+              <option value="3.0-3.5">3.0-3.5</option>
               <option value="Below 3.0">Below 3.0</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="graduating_time" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              When are you graduating? *
+              Graduating Time *
             </label>
-            <select
+            <input
+              type="text"
               id="graduating_time"
               name="graduating_time"
               value={formData.graduating_time}
               onChange={handleChange}
               required
+              placeholder="e.g., May 2025"
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
-            >
-              <option value="">Select graduation time</option>
-              <option value="Already graduated (2024 or earlier)">Already graduated (2024 or earlier)</option>
-              <option value="Spring 2025 (May 2025)">Spring 2025 (May 2025)</option>
-              <option value="Fall 2025 (Dec 2025)">Fall 2025 (Dec 2025)</option>
-              <option value="Spring 2026 (May 2026)">Spring 2026 (May 2026)</option>
-              <option value="Fall 2026 (Dec 2026)">Fall 2026 (Dec 2026)</option>
-              <option value="2027 or later">2027 or later</option>
-            </select>
+            />
           </div>
         </div>
 
         {/* Experience */}
         <div className="space-y-5">
           <div className="flex items-center gap-3 pb-3 border-b-2 border-purple-100 dark:border-purple-900">
-            <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-              <span className="text-xl">💼</span>
-            </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Experience</h3>
           </div>
 
           <div>
             <label htmlFor="internship_count" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              How many software/tech internships have you completed? *
+              Number of Previous Internships *
             </label>
-            <select
+            <input
+              type="number"
               id="internship_count"
               name="internship_count"
               value={formData.internship_count}
               onChange={handleChange}
               required
+              min="0"
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
-            >
-              <option value="">Select count</option>
-              <option value="0">0 internships</option>
-              <option value="1">1 internship</option>
-              <option value="2">2 internships</option>
-              <option value="3">3+ internships</option>
-            </select>
+            />
           </div>
 
           <div>
             <label htmlFor="has_return_offer" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Do you have a return offer from a previous internship? *
+              Return Offer Status *
             </label>
             <select
               id="has_return_offer"
@@ -384,9 +361,9 @@ export function SurveyForm() {
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
             >
               <option value="">Select status</option>
-              <option value="Yes, but I'm still searching for other opportunities">Yes, but I'm still searching for other opportunities</option>
-              <option value="Yes, but it was rescinded or withdrawn">Yes, but it was rescinded or withdrawn</option>
+              <option value="Yes, but I'm still searching...">Yes, but I'm still searching...</option>
               <option value="No, I don't have a return offer">No, I don't have a return offer</option>
+              <option value="Yes, I accepted my return offer">Yes, I accepted my return offer</option>
             </select>
           </div>
         </div>
@@ -394,15 +371,12 @@ export function SurveyForm() {
         {/* Job Search Details */}
         <div className="space-y-5">
           <div className="flex items-center gap-3 pb-3 border-b-2 border-green-100 dark:border-green-900">
-            <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-              <span className="text-xl">🔍</span>
-            </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Job Search Details</h3>
           </div>
 
           <div>
             <label htmlFor="needs_sponsorship" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              Do you need visa sponsorship? *
+              Visa Sponsorship Status *
             </label>
             <select
               id="needs_sponsorship"
@@ -421,24 +395,18 @@ export function SurveyForm() {
 
           <div>
             <label htmlFor="when_started_applying" className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-              When did you start actively applying? *
+              When Did You Start Applying? *
             </label>
-            <select
+            <input
+              type="text"
               id="when_started_applying"
               name="when_started_applying"
               value={formData.when_started_applying}
               onChange={handleChange}
               required
+              placeholder="e.g., August 2024 or 3 months before graduation"
               className="w-full px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 transition-all duration-200"
-            >
-              <option value="">Select time</option>
-              <option value="Before August 2024">Before August 2024</option>
-              <option value="August - December 2024">August - December 2024</option>
-              <option value="January 2025 - May 2025">January 2025 - May 2025</option>
-              <option value="May 2025 - August 2025">May 2025 - August 2025</option>
-              <option value="August 2025 or Later">August 2025 or Later</option>
-              <option value="Haven't started yet">Haven't started yet</option>
-            </select>
+            />
           </div>
         </div>
 
@@ -450,28 +418,14 @@ export function SurveyForm() {
               : 'bg-red-50 border-red-200 text-red-900 dark:bg-red-900/20 dark:border-red-800 dark:text-red-200'
           }`}>
             {submitStatus === 'success' ? (
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">🎉</span>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <p className="font-bold text-lg mb-1">Thank you for sharing your data!</p>
-                  <p className="text-sm">Your submission helps thousands of job seekers understand the market better. Check out the <a href="/dashboard" className="underline font-semibold">dashboard</a> to see your data included in the stats!</p>
-                </div>
+              <div>
+                <p className="font-bold text-lg mb-1">Thank you for sharing your data!</p>
+                <p className="text-sm">Your submission helps thousands of job seekers understand the market better. Check out the <a href="/dashboard" className="underline font-semibold">dashboard</a> to see your data included in the stats!</p>
               </div>
             ) : (
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-red-100 dark:bg-red-800 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">⚠️</span>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <p className="font-bold text-lg mb-1">Submission failed</p>
-                  <p className="text-sm">{errorMessage || 'Please try again later or contact support if the issue persists.'}</p>
-                </div>
+              <div>
+                <p className="font-bold text-lg mb-1">Submission failed</p>
+                <p className="text-sm">{errorMessage || 'Please try again later or contact support if the issue persists.'}</p>
               </div>
             )}
           </div>
@@ -493,11 +447,11 @@ export function SurveyForm() {
                 Submitting...
               </span>
             ) : (
-              '✨ Submit Your Experience'
+              'Submit Your Experience'
             )}
           </button>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 text-center">
-            🔒 All data is anonymous and will be used to help job seekers understand the market
+            All data is anonymous and will be used to help job seekers understand the market
           </p>
         </div>
       </form>

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAggregatedStats, getFilterOptions } from '@/lib/db/postgres';
 import { DashboardFilters } from '@/lib/types';
 
+export const revalidate = 60; // Cache for 60 seconds
 /**
  * GET /api/stats
  * Get aggregated statistics with optional filters

@@ -63,41 +63,57 @@ export async function getSurveyResponses(
   filters?: DashboardFilters
 ): Promise<SurveyResponse[]> {
   try {
-    // Fetch all and filter in memory for now (simpler approach)
-    const { rows } = await sql`SELECT * FROM survey_responses ORDER BY timestamp DESC`;
-
-    let filteredRows = rows;
+    // Build WHERE conditions for SQL filtering
+    const conditions: string[] = [];
+    const values: any[] = [];
+    let paramIndex = 1;
 
     if (filters?.major) {
-      filteredRows = filteredRows.filter((r: any) => r.major === filters.major);
+      conditions.push(`major = $${paramIndex++}`);
+      values.push(filters.major);
     }
     if (filters?.degree) {
-      filteredRows = filteredRows.filter((r: any) => r.degree === filters.degree);
+      conditions.push(`degree = $${paramIndex++}`);
+      values.push(filters.degree);
     }
     if (filters?.school_tier) {
-      filteredRows = filteredRows.filter((r: any) => r.school_tier === filters.school_tier);
+      conditions.push(`school_tier = $${paramIndex++}`);
+      values.push(filters.school_tier);
     }
     if (filters?.gpa_range) {
-      filteredRows = filteredRows.filter((r: any) => r.gpa_range === filters.gpa_range);
+      conditions.push(`gpa_range = $${paramIndex++}`);
+      values.push(filters.gpa_range);
     }
     if (filters?.needs_sponsorship !== undefined) {
-      filteredRows = filteredRows.filter((r: any) =>
-        String(r.needs_sponsorship).toLowerCase().includes(filters.needs_sponsorship!.toLowerCase())
-      );
+      conditions.push(`LOWER(needs_sponsorship) LIKE LOWER($${paramIndex++})`);
+      values.push(`%${filters.needs_sponsorship}%`);
     }
     if (filters?.has_return_offer !== undefined) {
-      filteredRows = filteredRows.filter((r: any) =>
-        String(r.has_return_offer).toLowerCase().includes(filters.has_return_offer!.toLowerCase())
-      );
+      conditions.push(`LOWER(has_return_offer) LIKE LOWER($${paramIndex++})`);
+      values.push(`%${filters.has_return_offer}%`);
     }
     if (filters?.graduating_time) {
-      filteredRows = filteredRows.filter((r: any) => r.graduating_time === filters.graduating_time);
+      conditions.push(`graduating_time = $${paramIndex++}`);
+      values.push(filters.graduating_time);
     }
     if (filters?.when_started_applying) {
-      filteredRows = filteredRows.filter((r: any) => r.when_started_applying === filters.when_started_applying);
+      conditions.push(`when_started_applying = $${paramIndex++}`);
+      values.push(filters.when_started_applying);
+    }
+    if (filters?.internship_count !== undefined) {
+      conditions.push(`internship_count = $${paramIndex++}`);
+      values.push(parseInt(filters.internship_count, 10));
     }
 
-    return filteredRows.map((row: any) => ({
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    const queryText = `SELECT * FROM survey_responses ${whereClause} ORDER BY timestamp DESC`;
+
+    console.log('DB Query:', queryText);
+    console.log('DB Values:', values);
+
+    const { rows } = await sql.query(queryText, values);
+
+    return rows.map((row: any) => ({
       id: row.id.toString(),
       total_applications: row.total_applications,
       total_responses: row.total_responses,
@@ -164,6 +180,10 @@ export async function getAggregatedStats(
     if (filters?.when_started_applying) {
       conditions.push(`when_started_applying = $${paramIndex++}`);
       values.push(filters.when_started_applying);
+    }
+    if (filters?.internship_count !== undefined) {
+      conditions.push(`internship_count = $${paramIndex++}`);
+      values.push(parseInt(filters.internship_count, 10));
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';

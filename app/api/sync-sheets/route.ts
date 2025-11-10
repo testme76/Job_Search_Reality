@@ -5,6 +5,7 @@ const SHEET_ID = process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID;
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
 interface SheetRow {
+  timestamp: Date;
   total_applications: number;
   total_responses: number;
   total_first_round: number;
@@ -16,8 +17,8 @@ interface SheetRow {
   gpa_range: string;
   graduating_time: string;
   internship_count: number;
-  has_return_offer: boolean;
-  needs_sponsorship: boolean;
+  has_return_offer: string;
+  needs_sponsorship: string;
   when_started_applying: string;
 }
 
@@ -40,14 +41,45 @@ async function fetchFromGoogleSheets(): Promise<SheetRow[]> {
   const rows = data.values || [];
 
   return rows.map((row: any[]) => {
+    // Parse timestamp from column A (row[0])
+    const timestampStr = row[0] || new Date().toISOString();
+    let timestamp: Date;
+    try {
+      timestamp = new Date(timestampStr);
+      // If invalid date, use current time
+      if (isNaN(timestamp.getTime())) {
+        timestamp = new Date();
+      }
+    } catch {
+      timestamp = new Date();
+    }
+
     const internshipText = row[9] || "0";
     const internshipMatch = internshipText.match(/(\d+)/);
     const internshipCount = internshipMatch ? parseInt(internshipMatch[1]) : 0;
 
-    const hasReturnOffer = row[10] ? String(row[10]).toLowerCase().includes('yes') : false;
-    const needsSponsorship = row[11] ? String(row[11]).toLowerCase().includes('yes') : false;
+    // Convert return offer status to descriptive string
+    const returnOfferText = String(row[10] || "").toLowerCase();
+    let hasReturnOffer = "No, I don't have a return offer";
+    if (returnOfferText.includes('yes') && returnOfferText.includes('searching')) {
+      hasReturnOffer = "Yes, but I'm still searching...";
+    } else if (returnOfferText.includes('yes') && returnOfferText.includes('accepted')) {
+      hasReturnOffer = "Yes, I accepted my return offer";
+    } else if (returnOfferText.includes('yes')) {
+      hasReturnOffer = "Yes, but I'm still searching...";
+    }
+
+    // Convert sponsorship status to descriptive string
+    const sponsorshipText = String(row[11] || "").toLowerCase();
+    let needsSponsorship = "No, US citizen";
+    if (sponsorshipText.includes('yes') || sponsorshipText.includes('need')) {
+      needsSponsorship = "Yes, I need sponsorship";
+    } else if (sponsorshipText.includes('permanent') || sponsorshipText.includes('resident')) {
+      needsSponsorship = "No, permanent resident";
+    }
 
     return {
+      timestamp,
       total_applications: parseInt(row[1]) || 0,
       total_responses: parseInt(row[2]) || 0,
       total_first_round: parseInt(row[3]) || 0,
@@ -101,6 +133,7 @@ export async function GET(request: NextRequest) {
       try {
         await sql`
           INSERT INTO survey_responses (
+            timestamp,
             total_applications,
             total_responses,
             total_first_round,
@@ -116,6 +149,7 @@ export async function GET(request: NextRequest) {
             needs_sponsorship,
             when_started_applying
           ) VALUES (
+            ${record.timestamp.toISOString()},
             ${record.total_applications},
             ${record.total_responses},
             ${record.total_first_round},

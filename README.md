@@ -1,102 +1,141 @@
 # Job Search Reality
 
-An anonymous dashboard showing real job search statistics from 100+ software engineering candidates.
+A full-stack web application that aggregates and visualizes anonymous job search data from 110+ software engineering candidates. Built to help job seekers understand market trends and normalize the struggle of modern tech recruiting.
 
-## Features
+**Live Demo**: [Your deployment URL]
 
-- **Real Data**: 100+ anonymous survey responses
-- **Interactive Filters**: Filter by major, school tier, sponsorship, location, and experience level
-- **Live Stats**: Average applications, interviews, offers, and success rates
-- **Charts**: Visual representations of application distributions and success rates
-- **Responsive**: Works on desktop and mobile
+## Overview
+
+This project showcases:
+- Full-stack development with Next.js 16 (App Router)
+- Real-time data visualization and filtering with React Query
+- PostgreSQL database design and optimization
+- Responsive UI/UX with TailwindCSS 4.1
+- Type-safe development with TypeScript
+- Advanced React patterns with hooks and context providers
+- Comprehensive testing with Jest and React Testing Library
+
+## Key Features
+
+### Interactive Dashboard
+- Dynamic filtering by major, degree, school tier, GPA, sponsorship status, and more
+- Real-time statistics updates based on filter selections
+- Visual data representations using Recharts
+- Responsive design optimized for mobile and desktop
+
+### Data Collection & Management
+- Comprehensive survey form with validation
+- PostgreSQL database with indexed queries for performance
+- Google Sheets sync for bulk data imports
+- CSV export functionality for analysis
+- 110+ real survey responses collected
+
+### Technical Highlights
+- Server-side rendering with Next.js App Router
+- Optimized database queries with parameterized SQL
+- Type-safe API routes and data models
+- Dark mode support throughout the application
+- Framer Motion animations for enhanced UX
 
 ## Tech Stack
 
-- **Frontend**: Next.js 16 (App Router), TypeScript, TailwindCSS
-- **Backend**: Vercel Postgres / Neon
-- **Charts**: Recharts
-- **Animations**: Framer Motion
+**Frontend**
+- Next.js 16 (App Router)
+- React 19.2
+- TypeScript 5.9
+- TailwindCSS 4.1
+- Recharts 3.3
+- Framer Motion 12
+- TanStack React Query 5.90
+- clsx & tailwind-merge for styling
 
-## Getting Started
+**Backend**
+- Next.js API Routes
+- Vercel Postgres
+- PostgreSQL with parameterized queries
 
-### Prerequisites
+**Testing & Development**
+- Jest 30
+- React Testing Library 16
+- TypeScript ESLint
+- tsx for script execution
 
-- Node.js 18+ installed
-- Vercel account (for Postgres) or Neon account
+**Deployment**
+- Vercel (hosting + database)
 
-### Installation
-
-1. Clone the repository
-```bash
-git clone <your-repo-url>
-cd job-search-reality
-```
-
-2. Install dependencies
-```bash
-npm install
-```
-
-3. Set up Postgres database
-   - Create a Vercel Postgres or Neon database
-   - Copy connection string to `.env.local`:
-   ```
-   POSTGRES_URL="your_connection_string_here"
-   ```
-
-4. Initialize database
-```bash
-npm run dev
-# Visit http://localhost:3000/api/db/init
-```
-
-5. Open [http://localhost:3000](http://localhost:3000)
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Create Vercel Postgres database in Vercel dashboard
-3. Import project to Vercel (environment variables auto-configured)
-4. After first deploy, visit `/api/db/init` to initialize schema
-5. Deploy
-
-```bash
-npm run build
-```
-
-## Project Structure
+## Architecture
 
 ```
-job-search-reality/
-├── app/                      # Next.js app router
-│   ├── dashboard/           # Dashboard page
-│   ├── about/              # About page
-│   ├── api/                # API routes
-│   ├── layout.tsx          # Root layout
-│   └── page.tsx            # Landing page
-├── components/
-│   ├── landing/            # Landing page components
-│   ├── dashboard/          # Dashboard components
-│   └── ui/                 # Reusable UI components
-├── lib/
-│   ├── types.ts            # TypeScript interfaces
-│   ├── utils.ts            # Utility functions
-│   └── googleSheets.ts     # Google Sheets integration
-└── public/                 # Static assets
+app/
+├── dashboard/          # Interactive data visualization with dynamic filters
+├── survey/            # Multi-step form for data collection
+├── responses/         # Admin view with CSV export
+└── api/
+    ├── stats/         # Aggregated statistics with filtering
+    ├── responses/     # CRUD operations for survey data
+    ├── filters/       # Dynamic filter options
+    └── sync-sheets/   # Google Sheets integration
+
+components/
+├── dashboard/         # Chart components, metric cards, filters
+├── survey/           # Form components with validation
+├── landing/          # Hero, stats preview, CTA
+├── ui/               # Reusable UI components (Skeleton, etc.)
+└── ErrorBoundary.tsx # Error handling wrapper
+
+lib/
+├── db/
+│   ├── postgres.ts   # Database layer with parameterized queries
+│   └── schema.sql    # Database schema definitions
+├── providers/        # React context providers
+├── utils/            # Utility functions and helpers
+└── types.ts          # Shared TypeScript interfaces
+
+scripts/
+├── check-data.ts     # Data validation utilities
+└── clear-data.ts     # Database cleanup utilities
 ```
 
-## Contributing
+## What I Built
 
-Feel free to open issues or submit PRs!
+- **Database schema** for storing multi-dimensional survey data with optimized indexes
+- **RESTful API** with multiple endpoints for data operations and filtering
+- **Dynamic filtering system** with React Query for real-time statistics updates
+- **Interactive charts** using Recharts showing application distributions and success rates
+- **Responsive survey form** with comprehensive validation and dropdown options
+- **Error boundaries** and loading states for better UX
+- **Data visualization** helping users understand job market trends
+- **Testing infrastructure** with Jest and React Testing Library
+- **Utility scripts** for data validation and management
 
-## License
+## Key Technical Implementations
 
-MIT
+### Performance Optimizations
+- Implemented React Query for efficient data fetching and caching
+- Database query optimization with proper indexing
+- Skeleton loading states for better perceived performance
+- Responsive animations with Framer Motion
 
-## Contact
+### Code Quality
+- Comprehensive TypeScript types throughout the application
+- Jest test suite with React Testing Library
+- Error boundary implementation for graceful error handling
+- Reusable component architecture
+
+### Data Management
+- PostgreSQL schema with proper constraints and indexes
+- Parameterized queries for SQL injection prevention
+- Data validation scripts for integrity checks
+- CSV export functionality for data analysis
+
+## Project Impact
+
+This project demonstrates:
+- Full-stack development expertise with modern React and Next.js
+- Database design and optimization skills
+- Real-world problem solving for 110+ job seekers
+- Clean, maintainable, and tested code architecture
+
+---
 
 Built to help job seekers understand they're not alone in this brutal market.
-
-Survey: https://forms.gle/98NCmJuqme5Dtwrr7

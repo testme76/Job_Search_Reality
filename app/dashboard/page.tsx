@@ -6,6 +6,7 @@ import Filters from "@/components/dashboard/Filters";
 import MetricCard from "@/components/dashboard/MetricCard";
 import ApplicationsChart from "@/components/dashboard/ApplicationsChart";
 import ResponseRateChart from "@/components/dashboard/ResponseRateChart";
+import { MetricCardSkeleton, ChartSkeleton } from "@/components/ui/Skeleton";
 import type { DashboardFilters, SurveyResponse } from "@/lib/types";
 import { calculateStats } from "@/lib/utils";
 
@@ -65,9 +66,18 @@ export default function Dashboard() {
         </div>
 
         {loading ? (
-          <div className="text-center py-20">
-            <p className="text-gray-500">Loading data...</p>
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <MetricCardSkeleton />
+              <MetricCardSkeleton />
+              <MetricCardSkeleton />
+              <MetricCardSkeleton />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <ChartSkeleton />
+              <ChartSkeleton />
+            </div>
+          </>
         ) : stats ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
