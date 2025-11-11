@@ -29,7 +29,7 @@ export default function About() {
             <Card>
               <h2 className="text-2xl font-semibold mb-4">Methodology</h2>
               <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                <li>100% anonymous responses via Google Forms</li>
+                <li>100% anonymous responses collected via our website</li>
                 <li>Data collected from software engineering job seekers</li>
                 <li>Filters available: major, school tier, sponsorship status, location, experience level</li>
                 <li>Updated in real-time as new responses come in</li>

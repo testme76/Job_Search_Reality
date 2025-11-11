@@ -26,7 +26,6 @@ This project showcases:
 ### Data Collection & Management
 - Comprehensive survey form with validation
 - PostgreSQL database with indexed queries for performance
-- Google Sheets sync for bulk data imports
 - CSV export functionality for analysis
 - 110+ real survey responses collected
 
@@ -73,8 +72,7 @@ app/
 └── api/
     ├── stats/         # Aggregated statistics with filtering
     ├── responses/     # CRUD operations for survey data
-    ├── filters/       # Dynamic filter options
-    └── sync-sheets/   # Google Sheets integration
+    └── filters/       # Dynamic filter options
 
 components/
 ├── dashboard/         # Chart components, metric cards, filters
