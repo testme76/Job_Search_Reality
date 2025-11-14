@@ -24,11 +24,11 @@ export default function Hero() {
         </h1>
 
         <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-6 max-w-3xl mx-auto leading-relaxed">
-          I've sent out <span className="font-semibold text-gray-900 dark:text-white">500+ applications</span> and gotten <span className="font-semibold text-gray-900 dark:text-white">3 interviews, 0 offers</span>. For the longest time I thought something was wrong with me.
+          A lot of new grads are stressed, doubting themselves, and wondering if their job search experience is normal.
         </p>
 
         <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-12 font-medium">
-          Then I started talking to people and realized... <span className="text-blue-600 dark:text-blue-400">wait, is everyone going through this?</span>
+          You can find <span className="text-blue-600 dark:text-blue-400">individual stories on Reddit or LinkedIn, but no real dataset</span> to show what's actually typical.
         </p>
 
         <motion.div

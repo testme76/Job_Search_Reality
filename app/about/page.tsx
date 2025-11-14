@@ -15,14 +15,13 @@ export default function About() {
             <Card>
               <h2 className="text-2xl font-semibold mb-4">The Story</h2>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
-                I've sent out 500+ applications and gotten 3 interviews, 0 offers. For the longest time I thought something was wrong with me.
+                As a CS new grad going through the job search, I noticed a lot of us are stressed, doubting ourselves, and wondering if our experience is normal.
               </p>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Then I started talking to people and realized... wait, is everyone going through this?
+                You can scroll through reddit and see people posting about hundreds of applications with few responses, or find LinkedIn posts about tough interview experiences, but these are just scattered individual stories. There's no real dataset, no aggregated numbers to help us understand what's actually typical.
               </p>
               <p className="text-gray-700 dark:text-gray-300">
-                So I made a quick anonymous survey to actually figure out what's normal. How many applications are people really sending?
-                What are response rates looking like? When are people actually getting offers?
+                So I built this—a simple anonymous survey to collect real data. How many applications are people sending? What are the actual response rates? When do offers typically come? It's the resource I wished existed when I started searching.
               </p>
             </Card>
 
