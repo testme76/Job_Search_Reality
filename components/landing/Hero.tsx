@@ -12,11 +12,11 @@ export default function Hero() {
         className="text-center"
       >
         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-          Missing 
+          Missing{" "}
           <span className="text-blue-600 dark:text-blue-400">
-            Real Data on the  
+            Real Data on the
           </span>
-          Job Market?
+          {" "}Job Market?
         </h1>
 
         <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-4 max-w-3xl mx-auto">
