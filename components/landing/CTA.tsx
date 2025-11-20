@@ -8,7 +8,7 @@ export default function CTA() {
       <div className="absolute inset-0 bg-gradient-to-t from-white/50 dark:from-gray-950/50 to-transparent rounded-3xl -z-10" />
 
       <div className="relative">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
           See Where You Stand
         </h2>
         <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
